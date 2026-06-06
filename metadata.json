@@ -1,0 +1,6 @@
+{
+  "name": "AWS CCP Practice Exam",
+  "description": "AWS Certified Cloud Practitioner (CLF-C02) Premium Study Suite with standard tests and ExamTopics dump simulator",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

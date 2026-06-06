@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:ital,wght@1,700;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-brand-bg: #090A0F; /* Deep midnight space canvas */
+  --color-brand-s1: #11131E; /* Midnight slate widgets */
+  --color-brand-s2: #161A2B; /* Dark control elements */
+  --color-brand-s3: #1D233B; /* Accent layout border lines */
+  --color-brand-s4: #FF9900; /* Vibrant AWS Orange glow indicator */
+  --color-dark-text: #E5E9F0; /* Soft bright high-contrast text */
+
+  --color-aws-orange: #FF9900;
+  --color-aws-green: #10B981; /* Cyber green indicator */
+  --color-aws-red: #EF4444; /* Cyber red indicator */
+  --color-aws-yellow: #FF9900; /* Glowing yellow orange */
+  --color-aws-blue: #3B82F6; /* Tech blue branding */
+}
+
+body {
+  background-color: var(--color-brand-bg);
+  color: var(--color-dark-text);
+  font-family: var(--font-sans);
+}
+
+body.light-mode {
+  --color-brand-bg: #F4F6F9; /* Clean soft slate gray canvas */
+  --color-brand-s1: #FFFFFF; /* Pure white widgets */
+  --color-brand-s2: #EDF2F7; /* Solid gray controls */
+  --color-brand-s3: #E2E8F0; /* Thin structure borders */
+  --color-brand-s4: #DF6900; /* Darker orange for readable contrast */
+  --color-aws-orange: #DF6900;
+  --color-dark-text: #2D3748; /* Soft charcoal text */
+
+  background-color: var(--color-brand-bg);
+  color: var(--color-dark-text);
+}
+
+/* Light mode overrides for high-contrast accessibility and perfect readability */
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode h5,
+body.light-mode h6,
+body.light-mode .text-white {
+  color: #1A202C !important;
+}
+
+body.light-mode .text-\[\#A0AEC0\] {
+  color: #4A5568 !important;
+}
+
+body.light-mode [class*="text-[#A0AEC0]"] {
+  color: #4A5568 !important;
+}
+
+body.light-mode .hover\:text-white:hover {
+  color: #1A202C !important;
+}
+
+/* Retain high-contrast matching text on colored badges/buttons in light mode */
+body.light-mode .bg-brand-s4,
+body.light-mode .bg-brand-s4 * {
+  color: #FFFFFF !important;
+}
+
+/* Exception for buttons using light brand background text on Orange buttons */
+body.light-mode button.bg-brand-s4,
+body.light-mode a.bg-brand-s4,
+body.light-mode .text-brand-bg,
+body.light-mode .bg-brand-s4 .text-brand-bg {
+  color: #FFFFFF !important;
+}
+
+body.light-mode .bg-brand-s4\/10 {
+  background-color: rgba(223, 105, 0, 0.12) !important;
+  border-color: rgba(223, 105, 0, 0.3) !important;
+}
+
+body.light-mode .text-brand-s4 {
+  color: #DF6900 !important;
+}
+
+body.light-mode .bg-green-600,
+body.light-mode .bg-green-600 * {
+  color: #FFFFFF !important;
+}
+
+body.light-mode .bg-red-600,
+body.light-mode .bg-red-600 * {
+  color: #FFFFFF !important;
+}
+
+body.light-mode .bg-green-500\/10 {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.25) !important;
+}
+
+body.light-mode .bg-red-500\/10 {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.25) !important;
+}
+
+body.light-mode .text-green-400 {
+  color: #16A34A !important;
+}
+
+body.light-mode .text-red-400 {
+  color: #DC2626 !important;
+}
+
+body.light-mode [class*="accent-brand-s4"] {
+  accent-color: #DF6900 !important;
+}
+
+/* Cyberpunk terminal style scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-brand-bg);
+  border-left: 1px solid var(--color-brand-s3);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-s2);
+  border: 1px solid var(--color-brand-s4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-s3);
+}
