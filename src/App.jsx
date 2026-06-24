@@ -186,43 +186,100 @@ if (typeof document !== "undefined") {
 
 
 
-import RAW from "./questions.json";
+import RAW_CCP from "./questions.json";
+import RAW_AIF from "./aif_c01.json";
 
-const DOMAINS = [
-  "Domain 1: Cloud Concepts",
-  "Domain 2: Security and Compliance",
-  "Domain 3: Cloud Technology and Services",
-  "Domain 4: Billing, Pricing, and Support"
-];
-const DM = {
-  "Domain 1: Cloud Concepts":{pct:"24%",c:"#3b82f6",e:"☁️"},
-  "Domain 2: Security and Compliance":{pct:"30%",c:"#a855f7",e:"🔒"},
-  "Domain 3: Cloud Technology and Services":{pct:"34%",c:"#22c55e",e:"⚡"},
-  "Domain 4: Billing, Pricing, and Support":{pct:"12%",c:"#f59e0b",e:"💳"},
-};
+const MAPPED_AIF = RAW_AIF.map(q => ({
+  id: q.id,
+  q: q.question,
+  o: q.options,
+  c: q.correct,
+  du: q.discussion_url || null,
+  dc: q.domain_category || "General",
+  sc: q.service_category || "General"
+}));
 
-const PRESETS = {
-  security: {
-    label: "🛡️ Security Master",
-    desc: "IAM, Cognito, KMS, Shield, WAF, GuardDuty, Macie, Inspector, Artifact, Secrets Manager",
-    terms: ["iam", "cognito", "kms", "shield", "waf", "guardduty", "macie", "inspector", "artifact", "secrets manager"]
+const EXAMS = {
+  ccp: {
+    id: "ccp",
+    title: "AWS Certified Cloud Practitioner (CLF-C02)",
+    questions: RAW_CCP,
+    pKey: "aws_ccp_p_v1",
+    fKey: "aws_ccp_f_v1",
+    domains: [
+      "Domain 1: Cloud Concepts",
+      "Domain 2: Security and Compliance",
+      "Domain 3: Cloud Technology and Services",
+      "Domain 4: Billing, Pricing, and Support"
+    ],
+    dm: {
+      "Domain 1: Cloud Concepts":{pct:"24%",c:"#3b82f6",e:"☁️"},
+      "Domain 2: Security and Compliance":{pct:"30%",c:"#a855f7",e:"🔒"},
+      "Domain 3: Cloud Technology and Services":{pct:"34%",c:"#22c55e",e:"⚡"},
+      "Domain 4: Billing, Pricing, and Support":{pct:"12%",c:"#f59e0b",e:"💳"},
+    },
+    infoText: (
+      <>
+        <strong style={{color:"var(--aws)"}}>Pass score: 700/1000</strong> (≈70%). The exam has 65 questions, 90 minutes. Focus on Security + Technology — they are <strong style={{color:"var(--aws)"}}>64%</strong> of the exam.
+      </>
+    ),
+    presets: {
+      security: {
+        label: "🛡️ Security Master",
+        desc: "IAM, Cognito, KMS, Shield, WAF, GuardDuty, Macie, Inspector, Artifact, Secrets Manager",
+        terms: ["iam", "cognito", "kms", "shield", "waf", "guardduty", "macie", "inspector", "artifact", "secrets manager"]
+      },
+      infra: {
+        label: "🏗️ Core Infrastructure",
+        desc: "EC2, ECS, EKS, Lambda, S3, EBS, EFS, Glacier, VPC, Route 53, ELB",
+        terms: ["ec2", "ecs", "eks", "lambda", "s3", "ebs", "efs", "glacier", "vpc", "route 53", "elb"]
+      },
+      db: {
+        label: "📊 Databases & Analytics",
+        desc: "RDS, DynamoDB, Redshift, Aurora, ElastiCache, Athena, EMR, Glue, Kinesis",
+        terms: ["rds", "dynamodb", "redshift", "aurora", "elasticache", "athena", "emr", "glue", "kinesis", "neptune", "keyspaces"]
+      },
+      billing: {
+        label: "💰 Billing & Cost",
+        desc: "Budgets, Cost Explorer, Pricing Calculator, Consolidated Billing, Free Tier",
+        terms: ["budget", "cost explorer", "pricing calculator", "consolidated billing", "free tier", "economics", "savings plans"]
+      }
+    }
   },
-  infra: {
-    label: "🏗️ Core Infrastructure",
-    desc: "EC2, ECS, EKS, Lambda, S3, EBS, EFS, Glacier, VPC, Route 53, ELB",
-    terms: ["ec2", "ecs", "eks", "lambda", "s3", "ebs", "efs", "glacier", "vpc", "route 53", "elb"]
-  },
-  db: {
-    label: "📊 Databases & Analytics",
-    desc: "RDS, DynamoDB, Redshift, Aurora, ElastiCache, Athena, EMR, Glue, Kinesis",
-    terms: ["rds", "dynamodb", "redshift", "aurora", "elasticache", "athena", "emr", "glue", "kinesis", "neptune", "keyspaces"]
-  },
-  billing: {
-    label: "💰 Billing & Cost",
-    desc: "Budgets, Cost Explorer, Pricing Calculator, Consolidated Billing, Free Tier",
-    terms: ["budget", "cost explorer", "pricing calculator", "consolidated billing", "free tier", "economics", "savings plans"]
+  aif: {
+    id: "aif",
+    title: "AWS Certified AI Practitioner (AIF-C01)",
+    questions: MAPPED_AIF,
+    pKey: "aws_aif_p_v1",
+    fKey: "aws_aif_f_v1",
+    domains: [
+      "Domain 1: Fundamentals of AI and ML",
+      "Domain 2: Fundamentals of Generative AI",
+      "Domain 3: Applications of Foundation Models",
+      "Domain 4: Guidelines for Responsible AI",
+      "Domain 5: Security, Compliance, and Governance"
+    ],
+    dm: {
+      "Domain 1: Fundamentals of AI and ML":{pct:"20%",c:"#3b82f6",e:"🤖"},
+      "Domain 2: Fundamentals of Generative AI":{pct:"24%",c:"#a855f7",e:"🧠"},
+      "Domain 3: Applications of Foundation Models":{pct:"28%",c:"#22c55e",e:"🏗️"},
+      "Domain 4: Guidelines for Responsible AI":{pct:"14%",c:"#f59e0b",e:"⚖️"},
+      "Domain 5: Security, Compliance, and Governance":{pct:"14%",c:"#ef4444",e:"🛡️"}
+    },
+    infoText: (
+      <>
+        <strong style={{color:"var(--aws)"}}>Pass score: 700/1000</strong> (≈70%). The exam has 65 questions, 90 minutes. Focus on Applications of Foundation Models — it is <strong style={{color:"var(--aws)"}}>28%</strong> of the exam.
+      </>
+    ),
+    presets: {
+      sagemaker: { label: "🧠 SageMaker", desc: "SageMaker Studio, JumpStart, Data Wrangler, Feature Store, Clarify", terms: ["sagemaker"] },
+      genai: { label: "✨ Generative AI", desc: "Bedrock, Claude, Titan, Stable Diffusion, Prompt Engineering, RAG", terms: ["bedrock", "claude", "titan", "prompt", "rag", "foundation model"] },
+      security: { label: "🛡️ AI Security", desc: "Macie, GuardDuty, KMS, IAM, Compliance, Responsible AI", terms: ["macie", "guardduty", "kms", "iam", "compliance", "responsible", "privacy"] },
+      services: { label: "☁️ AI Services", desc: "Rekognition, Comprehend, Polly, Transcribe, Lex, Translate", terms: ["rekognition", "comprehend", "polly", "transcribe", "lex", "translate"] }
+    }
   }
 };
+
 
 
 async function sGet(k){try{const r=await window.storage.get(k);return r?.value??null}catch{return null}}
@@ -247,7 +304,9 @@ function highlightText(text, search) {
   );
 }
 
-export default function App(){
+function ExamEngine({ examConfig, onSwitch }) {
+  const { id: EXAM_ID, title: EXAM_TITLE, questions: RAW, pKey: P_KEY, fKey: F_KEY, domains: DOMAINS, dm: DM, presets: PRESETS } = examConfig;
+
   const [tab,setTab]=useState("study");
   const [screen,setScreen]=useState("dash");
   const [prog,setProg]=useState({});
@@ -257,6 +316,7 @@ export default function App(){
   const [ans,setAns]=useState({});
   const [sub,setSub]=useState({});
   const [sFlags,setSFlags]=useState({});
+  const [visited,setVisited]=useState({});
   const [tLeft,setTLeft]=useState(0);
   const [paused,setPaused]=useState(false);
   const [seqStart,setSeqStart]=useState(1);
@@ -290,14 +350,14 @@ export default function App(){
 
   useEffect(()=>{
     (async()=>{
-      const [pStr,fStr]=await Promise.all([sGet("aws_p_v3"),sGet("aws_f_v3")]);
+      const [pStr,fStr]=await Promise.all([sGet(P_KEY),sGet(F_KEY)]);
       if(pStr)try{setProg(JSON.parse(pStr))}catch{}
       if(fStr)try{setFlags(JSON.parse(fStr))}catch{}
     })();
   },[]);
 
-  useEffect(()=>{if(Object.keys(prog).length)sSet("aws_p_v3",prog)},[prog]);
-  useEffect(()=>{if(Object.keys(flags).length)sSet("aws_f_v3",flags)},[flags]);
+  useEffect(()=>{if(Object.keys(prog).length)sSet(P_KEY,prog)},[prog]);
+  useEffect(()=>{if(Object.keys(flags).length)sSet(F_KEY,flags)},[flags]);
 
   useEffect(()=>{
     if(screen!=="exam"||!session?.isTimed||paused)return;
@@ -470,7 +530,7 @@ export default function App(){
   },[prog]);
 
   const startSession=useCallback((sess)=>{
-    setSession(sess);setAns({});setSub({});setSFlags({});setQi(0);
+    setSession(sess);setAns({});setSub({});setSFlags({});setVisited({});setQi(0);
     setTLeft(sess.isTimed?sess.time:0);setPaused(false);setScreen("exam");
   },[]);
 
@@ -529,10 +589,17 @@ export default function App(){
 
   const handleResetProg=()=>{
     if(!confirm("Clear all progress?"))return;
-    setProg({});setFlags({});sSet("aws_p_v3","{}");sSet("aws_f_v3","{}");
+    setProg({});setFlags({});sSet(P_KEY,"{}");sSet(F_KEY,"{}");
   };
 
   const cq=session?.questions[qi];
+
+  // Track visited questions for skipped detection
+  useEffect(()=>{
+    if(cq&&session){
+      setVisited(prev=>{if(prev[cq.id])return prev;return{...prev,[cq.id]:true}});
+    }
+  },[cq,session]);
 
   if(screen==="exam"&&session&&cq){
     const isMulti=cq.c.length>1;
@@ -627,13 +694,37 @@ export default function App(){
                 const isSubd2=!!sub[q.id];
                 const isCorr=q.c.length===sel.length&&q.c.every(c=>sel.includes(c));
                 const isFlagged=sFlags[q.id];
-                let bg="var(--s2)",bc="var(--s4)",col="var(--t2)";
+                const isVisited=visited[q.id];
+                const isSkipped=isVisited&&!hasAns;
+                let bg="var(--s2)",bc="var(--s4)",col="var(--t2)",bs="solid";
                 if(i===qi){bc="#fff"}
-                if(session.studyMode&&isSubd2){if(isCorr){bg="var(--ok-bg)";bc="var(--ok-b)";col="var(--ok)"}else{bg="var(--err-bg)";bc="var(--err-b)";col="var(--err)"}}
-                else if(isFlagged){bg="rgba(245,158,11,.15)";bc="rgba(245,158,11,.5)";col="#f59e0b"}
-                else if(hasAns){bg="rgba(255,153,0,.1)";bc="rgba(255,153,0,.4)";col="var(--aws)"}
-                return<button key={i} onClick={()=>setQi(i)} style={{width:"100%",aspectRatio:1,borderRadius:6,border:`1px solid ${bc}`,background:bg,color:col,fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"monospace",outline:i===qi?"2px solid #fff":"none",outlineOffset:1}}>{i+1}</button>;
+                if(session.studyMode&&isSubd2){
+                  if(isCorr){bg="var(--ok-bg)";bc="var(--ok-b)";col="var(--ok)"}
+                  else{bg="var(--err-bg)";bc="var(--err-b)";col="var(--err)"}
+                }
+                else if(isFlagged&&hasAns){bg="rgba(245,158,11,.15)";bc="rgba(245,158,11,.5)";col="#f59e0b"}
+                else if(isFlagged){bg="rgba(245,158,11,.1)";bc="rgba(245,158,11,.4)";col="#f59e0b";bs="dashed"}
+                else if(hasAns){bg="rgba(59,130,246,.12)";bc="rgba(59,130,246,.5)";col="#3b82f6"}
+                else if(isSkipped){bg="rgba(100,116,139,.08)";bc="rgba(100,116,139,.4)";col="#94a3b8";bs="dashed"}
+                return<button key={i} onClick={()=>setQi(i)} style={{width:"100%",aspectRatio:1,borderRadius:6,border:`1px ${bs} ${bc}`,background:bg,color:col,fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"monospace",outline:i===qi?"2px solid #fff":"none",outlineOffset:1}}>{i+1}</button>;
               })}
+            </div>
+            {/* Legend */}
+            <div style={{marginTop:10,display:"flex",flexDirection:"column",gap:4}}>
+              {[
+                ["rgba(59,130,246,.12)","rgba(59,130,246,.5)","#3b82f6","solid","Done"],
+                ["rgba(245,158,11,.15)","rgba(245,158,11,.5)","#f59e0b","solid","Flagged"],
+                ["rgba(100,116,139,.08)","rgba(100,116,139,.4)","#94a3b8","dashed","Skipped"],
+                ...(session.studyMode?[
+                  ["var(--ok-bg)","var(--ok-b)","var(--ok)","solid","Correct"],
+                  ["var(--err-bg)","var(--err-b)","var(--err)","solid","Wrong"],
+                ]:[]),
+              ].map(([lbg,lbc,lcol,lstyle,lbl])=>(
+                <div key={lbl} style={{display:"flex",alignItems:"center",gap:6}}>
+                  <div style={{width:12,height:12,borderRadius:3,background:lbg,border:`1px ${lstyle} ${lbc}`,flexShrink:0}}/>
+                  <span style={{fontSize:10,color:lcol,fontWeight:600,textTransform:"uppercase",letterSpacing:.5}}>{lbl}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -704,25 +795,31 @@ export default function App(){
                   ["↓ Export","var(--s2)",()=>{
                     const wrongItems = items.filter(i => !i.ok);
                     const flaggedItems = items.filter(i => sFlags[i.q.id] || flags[i.q.id]);
-                    const formatQ = i => ({
+                    const formatQ = (i, includeFlagged = false) => ({
                       id: i.q.id,
                       question: i.q.q,
                       options: i.q.o,
                       yourAnswer: i.sel,
                       correctAnswer: i.q.c,
                       isCorrect: i.ok,
+                      ...(includeFlagged ? { isFlagged: !!(sFlags[i.q.id] || flags[i.q.id]) } : {}),
+                      domain: i.q.dc,
+                      service: i.q.sc,
                       explanationUrl: i.q.du || null
                     });
                     const blob=new Blob([JSON.stringify({
-                      label:session.label,
-                      score:`${pct}%`,
+                      exam: EXAM_ID,
+                      label: session.label,
+                      date: new Date().toISOString(),
+                      score: `${pct}%`,
                       passed,
                       correct,
                       total,
-                      wrongQuestions: wrongItems.map(formatQ),
-                      flaggedQuestions: flaggedItems.map(formatQ)
+                      allQuestions: items.map(i => formatQ(i, true)),
+                      wrongQuestions: wrongItems.map(i => formatQ(i, true)),
+                      flaggedQuestions: flaggedItems.map(i => formatQ(i, true))
                     },null,2)],{type:"application/json"});
-                    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="aws_ccp_analysis.json";a.click();
+                    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=EXAM_ID+"_exam_analysis.json";a.click();
                   }],
                   ["🏠 Dashboard","var(--s2)",()=>{setSession(null);setScreen("dash")}]
                 ].map(([label,bg,fn],i)=>(
@@ -734,28 +831,87 @@ export default function App(){
               </button>
             </div>
           </div>
+          
+          <div style={{...S.card, marginBottom: 16}}>
+            <div style={{fontSize:14,fontWeight:700,color:"var(--aws)",textTransform:"uppercase",marginBottom:14}}>Question Map</div>
+            <div style={{display:"flex",gap:12,marginBottom:12,flexWrap:"wrap"}}>
+              {[
+                ["var(--ok-bg)","var(--ok-b)","var(--ok)","solid","Correct"],
+                ["var(--err-bg)","var(--err-b)","var(--err)","solid","Wrong"],
+                ["rgba(100,116,139,.08)","rgba(100,116,139,.4)","#94a3b8","dashed","Skipped"],
+                ["transparent","rgba(245,158,11,.8)","#f59e0b","dashed","Flagged (Border)"]
+              ].map(([lbg,lbc,lcol,lstyle,lbl])=>(
+                <div key={lbl} style={{display:"flex",alignItems:"center",gap:6}}>
+                  <div style={{width:16,height:16,borderRadius:4,background:lbg,border:`2px ${lstyle} ${lbc}`}}/>
+                  <span style={{fontSize:12,color:lcol,fontWeight:700}}>{lbl}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(40px, 1fr))",gap:8}}>
+              {items.map((item, i) => {
+                const isFlagged = sFlags[item.q.id] || flags[item.q.id];
+                const isSkipped = item.sel.length === 0;
+                const isCorr = item.ok;
+                let bg, bc, col, bs="solid", bw="1px";
+                if (isSkipped) { bg="rgba(100,116,139,.08)"; bc="rgba(100,116,139,.4)"; col="#94a3b8"; bs="dashed"; }
+                else if (isCorr) { bg="var(--ok-bg)"; bc="var(--ok-b)"; col="var(--ok)"; }
+                else { bg="var(--err-bg)"; bc="var(--err-b)"; col="var(--err)"; }
+
+                if (isFlagged) { bs="dashed"; bc="rgba(245,158,11,.8)"; bw="2px"; }
+                
+                return (
+                  <div key={i} title={isFlagged ? "Flagged" : ""} onClick={()=>{
+                      setShowAudit(true);
+                      setTimeout(() => {
+                        const el = document.getElementById(`audit-q-${item.q.id}`);
+                        if(el) el.scrollIntoView({behavior: "smooth", block: "center"});
+                      }, 100);
+                    }} style={{aspectRatio:1,borderRadius:6,border:`${bw} ${bs} ${bc}`,background:bg,color:col,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,fontFamily:"monospace", cursor:"pointer"}}>
+                    {i+1}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
           {showAudit&&(
             <div style={{...S.card}}>
               <div style={{fontSize:14,fontWeight:700,color:"var(--aws)",textTransform:"uppercase",marginBottom:14}}>Question Audit ({items.length} questions)</div>
-              {items.map((item,i)=>(
-                <div key={item.q.id} style={{padding:"14px 0",borderBottom:"1px solid var(--s3)"}}>
+              {/* Audit summary badges */}
+              <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
+                {[
+                  ["✓ Correct",items.filter(i=>i.ok).length,"var(--ok-bg)","var(--ok-b)","var(--ok)"],
+                  ["✗ Wrong",items.filter(i=>!i.ok&&(i.sel.length>0)).length,"var(--err-bg)","var(--err-b)","var(--err)"],
+                  ["— Skipped",items.filter(i=>i.sel.length===0).length,"var(--s2)","var(--s3)","var(--t3)"],
+                  ["⚑ Flagged",items.filter(i=>sFlags[i.q.id]||flags[i.q.id]).length,"rgba(245,158,11,.12)","rgba(245,158,11,.3)","#f59e0b"],
+                ].map(([label,count,bg,bc,col])=>(
+                  <span key={label} style={{fontSize:12,fontWeight:700,padding:"4px 10px",borderRadius:5,background:bg,border:`1px solid ${bc}`,color:col}}>{label}: {count}</span>
+                ))}
+              </div>
+              {items.map((item,i)=>{
+                const wasFlagged=sFlags[item.q.id]||flags[item.q.id];
+                const wasSkipped=item.sel.length===0;
+                let leftBorderColor=item.ok?"var(--ok)":"var(--err)";
+                if(wasSkipped)leftBorderColor="var(--t3)";
+                return(
+                <div id={`audit-q-${item.q.id}`} key={item.q.id} style={{padding:"14px 0 14px 12px",borderBottom:"1px solid var(--s3)",borderLeft:`3px solid ${leftBorderColor}`,marginBottom:2}}>
                   <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:10,flexWrap:"wrap"}}>
                     <div style={{flex:1}}>
                       <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:5,flexWrap:"wrap"}}>
                         <span style={{fontSize:12,fontWeight:700,color:"#fff",fontFamily:"monospace"}}>#{i+1} (Q{item.q.id})</span>
-                        <span style={{fontSize:12,fontWeight:700,padding:"2px 7px",borderRadius:4,background:item.ok?"var(--ok-bg)":"var(--err-bg)",border:`1px solid ${item.ok?"var(--ok-b)":"var(--err-b)"}`,color:item.ok?"var(--ok)":"var(--err)"}}>{item.ok?"✓":"✗"}</span>
+                        <span style={{fontSize:12,fontWeight:700,padding:"2px 7px",borderRadius:4,background:wasSkipped?"var(--s2)":(item.ok?"var(--ok-bg)":"var(--err-bg)"),border:`1px solid ${wasSkipped?"var(--s3)":(item.ok?"var(--ok-b)":"var(--err-b)")}`,color:wasSkipped?"var(--t3)":(item.ok?"var(--ok)":"var(--err)")}}>{wasSkipped?"— Skipped":(item.ok?"✓ Correct":"✗ Wrong")}</span>
+                        {wasFlagged&&<span style={{fontSize:12,fontWeight:700,padding:"2px 7px",borderRadius:4,background:"rgba(245,158,11,.12)",border:"1px solid rgba(245,158,11,.3)",color:"#f59e0b"}}>⚑ Flagged</span>}
                         <span style={{fontSize:12,color:"var(--t3)"}}>{item.q.sc}</span>
                       </div>
                       <p style={{fontSize:15,color:"#fff",lineHeight:1.5,marginBottom:6}}>{item.q.q}</p>
                       <div style={{fontSize:14,color:"var(--t2)",fontFamily:"monospace"}}>
-                        Your: <strong style={{color:item.ok?"var(--ok)":"var(--err)"}}>{item.sel.join(", ")||"—"}</strong>
+                        Your: <strong style={{color:wasSkipped?"var(--t3)":(item.ok?"var(--ok)":"var(--err)")}}>{item.sel.join(", ")||"— (not answered)"}</strong>
                         {" · "}Correct: <strong style={{color:"var(--ok)"}}>{item.q.c.join(", ")}</strong>
                       </div>
                     </div>
                     {item.q.du&&<a href={item.q.du} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"var(--aws)",textDecoration:"none",fontWeight:700,whiteSpace:"nowrap"}}>Discussion ↗</a>}
                   </div>
                 </div>
-              ))}
+              );})}
             </div>
           )}
         </div>
@@ -769,18 +925,22 @@ export default function App(){
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           <div style={{width:36,height:36,background:"rgba(255,153,0,.15)",border:"1px solid rgba(255,153,0,.3)",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",fontSize:21}}>🎓</div>
           <div>
-            <h1 style={{fontSize:16,fontWeight:900,color:"#fff",letterSpacing:1,textTransform:"uppercase"}}>AWS CCP Exam Builder<span style={{background:"var(--aws)",color:"#000",fontSize:11,fontWeight:900,padding:"2px 6px",borderRadius:4,letterSpacing:1,marginLeft:6,verticalAlign:"middle"}}>CLF-C02</span></h1>
-            <p style={{fontSize:12,color:"var(--t3)",letterSpacing:2,textTransform:"uppercase",marginTop:1}}>719 Questions · Practice & Exam Simulator</p>
+            <h1 style={{fontSize:16,fontWeight:900,color:"#fff",letterSpacing:1,textTransform:"uppercase"}}>{EXAM_TITLE}</h1>
+            <p style={{fontSize:12,color:"var(--t3)",letterSpacing:2,textTransform:"uppercase",marginTop:1}}>{RAW.length} Questions · Practice & Exam Simulator</p>
           </div>
         </div>
         <div style={{display:"flex",gap:8}}>
+          <button style={{...S.btnSm,color:"var(--t2)",background:"var(--s2)",borderColor:"var(--s3)",display:"flex",alignItems:"center",gap:4}} onClick={onSwitch}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" /></svg>
+            Switch Exam
+          </button>
           <button style={{...S.btnSm,color:"var(--err)",background:"rgba(239,68,68,.1)",borderColor:"rgba(239,68,68,.3)"}} onClick={handleResetProg}>Clear Progress</button>
         </div>
       </div>
       <div style={{background:"var(--s2)",borderBottom:"1px solid var(--s3)",padding:"8px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",fontSize:13,fontFamily:"monospace",color:"var(--t2)",flexWrap:"wrap",gap:6}}>
-        <span>● DATABASE: <strong style={{color:"#fff"}}>719 QUESTIONS</strong> loaded · 83 multi-answer corrected</span>
+        <span>● DATABASE: <strong style={{color:"#fff"}}>{RAW.length} QUESTIONS</strong> loaded</span>
         <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-          {[["Solved",`${totalAns}/719`],["Accuracy",`${accuracy}%`,accuracy>=70?"var(--ok)":"var(--aws)"],["Mistakes",mistakes.length,"var(--err)"],["Flags",Object.values(flags).filter(Boolean).length,"#f59e0b"]].map(([l,v,c],i)=>(
+          {[["Solved",`${totalAns}/${RAW.length}`],["Accuracy",`${accuracy}%`,accuracy>=70?"var(--ok)":"var(--aws)"],["Mistakes",mistakes.length,"var(--err)"],["Flags",Object.values(flags).filter(Boolean).length,"#f59e0b"]].map(([l,v,c],i)=>(
             <span key={i} style={{background:"var(--s1)",border:"1px solid var(--s3)",padding:"3px 8px",borderRadius:5,fontSize:13}}>{l}: <strong style={{color:c||"#fff"}}>{v}</strong></span>
           ))}
         </div>
@@ -797,12 +957,12 @@ export default function App(){
           <div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(320px, 1fr))",gap:16,marginBottom:16}}>
               {[
-                {id:"01",title:"Sequential Study",sub:"Q#1 to Q#719 in order",desc:"Study questions in curriculum order. Perfect for systematic reading or picking up where you left off.",body:(
+                {id:"01",title:"Sequential Study",sub:`Q#1 to Q#${RAW.length} in order`,desc:"Study questions in curriculum order. Perfect for systematic reading or picking up where you left off.",body:(
                   <>
                     <div style={S.label}>Starting Question</div>
-                    <div style={S.inpBox}><span style={{fontSize:12,color:"var(--t3)",fontWeight:700,textTransform:"uppercase"}}>Range: 1–719</span><input type="number" min="1" max="719" value={seqStart} onChange={e=>setSeqStart(Math.max(1,Math.min(719,+e.target.value||1)))} style={{background:"transparent",border:"none",outline:"none",color:"#fff",fontWeight:900,fontSize:17,textAlign:"right",width:60,fontFamily:"monospace"}}/></div>
+                    <div style={S.inpBox}><span style={{fontSize:12,color:"var(--t3)",fontWeight:700,textTransform:"uppercase"}}>Range: 1–{RAW.length}</span><input type="number" min="1" max={RAW.length} value={seqStart} onChange={e=>setSeqStart(Math.max(1,Math.min(RAW.length,+e.target.value||1)))} style={{background:"transparent",border:"none",outline:"none",color:"#fff",fontWeight:900,fontSize:17,textAlign:"right",width:60,fontFamily:"monospace"}}/></div>
                     <div style={S.label}>Count</div>
-                    <div style={S.rangeWrap}><input type="range" min="5" max="719" step="5" value={seqN} onChange={e=>setSeqN(+e.target.value)} style={{width:"100%",accentColor:"var(--aws)",cursor:"pointer",height:4}}/><span style={S.rangeVal}>{seqN}</span></div>
+                    <div style={S.rangeWrap}><input type="range" min="5" max={RAW.length} step="5" value={seqN} onChange={e=>setSeqN(+e.target.value)} style={{width:"100%",accentColor:"var(--aws)",cursor:"pointer",height:4}}/><span style={S.rangeVal}>{seqN}</span></div>
                     <div style={S.label}>Time Limit</div>
                     {seqUnlim?<div style={S.unlimInfo}>∞ Self-paced</div>:<div style={S.rangeWrap}><input type="range" min="10" max="200" step="10" value={seqT} onChange={e=>setSeqT(+e.target.value)} style={{width:"100%",accentColor:"var(--aws)",cursor:"pointer",height:4}}/><span style={S.rangeVal}>{seqT}m</span></div>}
                     <div style={{textAlign:"right",marginTop:4}}><button style={{...S.btnSm,marginTop:0,fontSize:12,padding:"4px 8px",background:seqUnlim?"rgba(255,153,0,.15)":"var(--s2)",borderColor:seqUnlim?"var(--aws)":"var(--s3)",color:seqUnlim?"var(--aws)":"var(--t2)"}} onClick={()=>setSeqUnlim(u=>!u)}>{seqUnlim?"Unlimited ON":"Set Unlimited"}</button></div>
@@ -811,10 +971,10 @@ export default function App(){
                     <button style={S.launchBtn} onClick={launchSeq}>▶ Launch Sequence</button>
                   </>
                 )},
-                {id:"02",title:"Random Exam",sub:"Simulates CLF-C02 real test",desc:"Randomized from all 719. Use \"At End\" mode for a realistic exam simulation experience.",body:(
+                {id:"02",title:"Random Exam",sub:"Simulates real test",desc:`Randomized from all ${RAW.length}. Use "At End" mode for a realistic exam simulation experience.`,body:(
                   <>
                     <div style={S.label}>Question Count</div>
-                    <div style={S.rangeWrap}><input type="range" min="5" max="719" step="5" value={randN} onChange={e=>setRandN(+e.target.value)} style={{width:"100%",accentColor:"var(--aws)",cursor:"pointer",height:4}}/><span style={S.rangeVal}>{randN}</span></div>
+                    <div style={S.rangeWrap}><input type="range" min="5" max={RAW.length} step="5" value={randN} onChange={e=>setRandN(+e.target.value)} style={{width:"100%",accentColor:"var(--aws)",cursor:"pointer",height:4}}/><span style={S.rangeVal}>{randN}</span></div>
                     <div style={S.label}>Time Limit</div>
                     {randUnlim?<div style={S.unlimInfo}>∞ Self-paced</div>:<div style={S.rangeWrap}><input type="range" min="10" max="200" step="10" value={randT} onChange={e=>setRandT(+e.target.value)} style={{width:"100%",accentColor:"var(--aws)",cursor:"pointer",height:4}}/><span style={S.rangeVal}>{randT}m</span></div>}
                     <div style={{textAlign:"right",marginTop:4}}><button style={{...S.btnSm,marginTop:0,fontSize:12,padding:"4px 8px",background:randUnlim?"rgba(255,153,0,.15)":"var(--s2)",borderColor:randUnlim?"var(--aws)":"var(--s3)",color:randUnlim?"var(--aws)":"var(--t2)"}} onClick={()=>setRandUnlim(u=>!u)}>{randUnlim?"Unlimited ON":"Set Unlimited"}</button></div>
@@ -1156,7 +1316,7 @@ export default function App(){
                             );
                           })}
                         </div>
-                        <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:"6px 12px", marginTop:8}}>
+                        <div style={{display:"grid", gridTemplateColumns:"1fr", gap:5, marginTop:8}}>
                           {DOMAINS.map(d => {
                             const count = poolBreakdown[d] || 0;
                             const pct = custPool.length > 0 ? Math.round((count / custPool.length) * 100) : 0;
@@ -1165,22 +1325,25 @@ export default function App(){
                                 display:"flex",
                                 alignItems:"center",
                                 justifyContent:"space-between",
-                                gap:6,
+                                gap:8,
                                 fontSize:12,
                                 color: count > 0 ? "var(--txt)" : "var(--t3)",
-                                padding:"4px 8px",
+                                padding:"5px 8px",
                                 borderRadius:6,
                                 background: count > 0 ? "rgba(255,255,255,0.02)" : "transparent",
                                 border: count > 0 ? "1px solid var(--s3)" : "1px solid transparent",
                                 transition: "all 0.2s"
                               }}>
-                                <div style={{display:"flex", alignItems:"center", gap:6, minWidth:0}}>
+                                <div style={{display:"flex", alignItems:"center", gap:6, minWidth:0, flex:1}}>
                                   <div style={{width:8, height:8, borderRadius:"50%", background: DM[d]?.c, flexShrink:0, boxShadow: count > 0 ? `0 0 6px ${DM[d]?.c}` : "none"}} />
                                   <div style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", fontWeight: count > 0 ? 600 : 400}}>
                                     {d.split(": ")[1]}
                                   </div>
                                 </div>
-                                <span style={{fontFamily:"monospace", fontWeight:700, color: count > 0 ? DM[d]?.c : "var(--t3)"}}>{pct}%</span>
+                                <div style={{display:"flex", alignItems:"center", gap:6, flexShrink:0}}>
+                                  <div style={{width:40, height:4, background:"var(--s3)", borderRadius:2, overflow:"hidden"}}><div style={{width:`${pct}%`, height:"100%", background: DM[d]?.c, borderRadius:2}} /></div>
+                                  <span style={{fontFamily:"monospace", fontWeight:700, color: count > 0 ? DM[d]?.c : "var(--t3)", minWidth:28, textAlign:"right"}}>{pct}%</span>
+                                </div>
                               </div>
                             );
                           })}
@@ -1246,7 +1409,7 @@ export default function App(){
 
         {tab==="browse"&&(
           <div>
-            <div style={{background:"rgba(255,153,0,.05)",border:"1px solid rgba(255,153,0,.2)",borderRadius:10,padding:"14px 16px",fontSize:14,color:"var(--t2)",lineHeight:1.7,marginBottom:16}}>Browse all 719 questions. Filter by domain, service, or status. Click any question to reveal the answer.</div>
+            <div style={{background:"rgba(255,153,0,.05)",border:"1px solid rgba(255,153,0,.2)",borderRadius:10,padding:"14px 16px",fontSize:14,color:"var(--t2)",lineHeight:1.7,marginBottom:16}}>Browse all {RAW.length} questions. Filter by domain, service, or status. Click any question to reveal the answer.</div>
             <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:16}}>
               <input placeholder="🔍 Search questions, services, options..." value={srch} onChange={e=>{setSrch(e.target.value);setBrowseLimit(30)}} style={{background:"var(--s2)",border:"1px solid var(--s3)",borderRadius:8,padding:"8px 12px",color:"#fff",fontSize:15,width:280,outline:"none",fontFamily:"monospace"}}/>
               {[["bStat",bStat,setBStat,[["all","All Status"],["unanswered","Unanswered"],["correct","Correct"],["wrong","Wrong"]]],["bDom",bDom,setBDom,[["all","All Domains"],...DOMAINS.map(d=>[d,d.split(": ")[1]])]],["bSrv",bSrv,setBSrv,[["all","All Services"],...uniqueSrvs.map(s=>[s,s])]]].map(([k,val,setFn,opts])=>(
@@ -1312,14 +1475,14 @@ export default function App(){
               <div style={{...S.card,marginBottom:16}}>
                 <div style={{fontSize:14,fontWeight:700,color:"var(--aws)",textTransform:"uppercase",marginBottom:14}}>Overall Progress</div>
                 <div style={{display:"flex",gap:20,marginBottom:16}}>
-                  {[["Attempted",`${totalAns}/719`,"#fff"],["Correct",`${totalCorr}/719`,"var(--ok)"],["Accuracy",`${accuracy}%`,accuracy>=70?"var(--ok)":"var(--aws)"]].map(([l,v,c])=>(
+                  {[["Attempted",`${totalAns}/${RAW.length}`,"#fff"],["Correct",`${totalCorr}/${RAW.length}`,"var(--ok)"],["Accuracy",`${accuracy}%`,accuracy>=70?"var(--ok)":"var(--aws)"]].map(([l,v,c])=>(
                     <div key={l}><div style={{fontSize:12,color:"var(--t3)",textTransform:"uppercase",fontWeight:700,marginBottom:3}}>{l}</div><div style={{fontSize:23,fontWeight:900,color:c,fontFamily:"monospace"}}>{v}</div></div>
                   ))}
                 </div>
                 <div style={{background:"var(--s3)",height:8,borderRadius:4,overflow:"hidden"}}>
-                  <div style={{width:`${totalAns/719*100}%`,height:"100%",background:"var(--aws)",borderRadius:4,transition:"width .3s"}}/>
+                  <div style={{width:`${totalAns/RAW.length*100}%`,height:"100%",background:"var(--aws)",borderRadius:4,transition:"width .3s"}}/>
                 </div>
-                <div style={{fontSize:12,color:"var(--t3)",marginTop:4}}>{719-totalAns} unanswered remaining</div>
+                <div style={{fontSize:12,color:"var(--t3)",marginTop:4}}>{RAW.length-totalAns} unanswered remaining</div>
               </div>
               <div style={S.card}>
                 <div style={{fontSize:14,fontWeight:700,color:"var(--aws)",textTransform:"uppercase",marginBottom:14}}>Domain Accuracy</div>
@@ -1366,13 +1529,13 @@ export default function App(){
               </div>
               <div style={S.card}>
                 <div style={{fontSize:14,fontWeight:700,color:"var(--aws)",textTransform:"uppercase",marginBottom:12}}>Exam Info</div>
-                {[["Domain 1: Cloud Concepts","24%","#3b82f6"],["Domain 2: Security","30%","#a855f7"],["Domain 3: Technology","34%","#22c55e"],["Domain 4: Billing","12%","#f59e0b"]].map(([d,p,c])=>(
+                {DOMAINS.map((d)=>(
                   <div key={d} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 0",borderBottom:"1px solid var(--s3)",fontSize:14}}>
-                    <span style={{color:"#fff"}}>{d}</span><span style={{fontWeight:900,color:c,fontFamily:"monospace"}}>{p}</span>
+                    <span style={{color:"#fff"}}>{d}</span><span style={{fontWeight:900,color:DM[d]?.c||"var(--aws)",fontFamily:"monospace"}}>{DM[d]?.pct||"0%"}</span>
                   </div>
                 ))}
                 <div style={{background:"rgba(255,153,0,.05)",border:"1px solid rgba(255,153,0,.2)",borderRadius:10,padding:"14px 16px",fontSize:14,color:"var(--t2)",lineHeight:1.7,marginTop:12}}>
-                  <strong style={{color:"var(--aws)"}}>Pass score: 700/1000</strong> (≈70%). The exam has 65 questions, 90 minutes. Focus on Security + Technology — they are <strong style={{color:"var(--aws)"}}>64%</strong> of the exam.
+                  {examConfig.infoText}
                 </div>
               </div>
             </div>
@@ -1411,3 +1574,63 @@ const S={
   correctBadge:{fontSize:13,fontWeight:700,color:"var(--ok)",background:"var(--ok-bg)",border:"1px solid var(--ok-b)",padding:"3px 10px",borderRadius:5,textTransform:"uppercase"},
   wrongBadge:{fontSize:13,fontWeight:700,color:"var(--err)",background:"var(--err-bg)",border:"1px solid var(--err-b)",padding:"3px 10px",borderRadius:5,textTransform:"uppercase"},
 };
+
+
+export default function App() {
+  const [examId, setExamId] = useState(null);
+
+  // Check if they have an active exam from a previous session (optional)
+  useEffect(() => {
+    async function load() {
+      try {
+        const lastExam = await window.storage.get("aws_last_exam");
+        if (lastExam?.value) {
+          setExamId(lastExam.value);
+        }
+      } catch {}
+    }
+    load();
+  }, []);
+
+  const selectExam = async (id) => {
+    setExamId(id);
+    try {
+      await window.storage.set("aws_last_exam", id);
+    } catch {}
+  };
+
+  if (!examId) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#0f172a", color: "white", padding: "20px" }}>
+        <h1 style={{ fontSize: "2rem", marginBottom: "30px", fontWeight: "bold" }}>Select Your Exam</h1>
+        <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
+          {Object.values(EXAMS).map(exam => (
+            <div 
+              key={exam.id} 
+              onClick={() => selectExam(exam.id)}
+              style={{
+                background: "#1e293b",
+                border: "1px solid #334155",
+                borderRadius: "12px",
+                padding: "30px",
+                cursor: "pointer",
+                width: "300px",
+                transition: "all 0.2s ease",
+                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+              }}
+              onMouseOver={(e) => e.currentTarget.style.borderColor = "#3b82f6"}
+              onMouseOut={(e) => e.currentTarget.style.borderColor = "#334155"}
+            >
+              <h2 style={{ fontSize: "1.25rem", fontWeight: "bold", marginBottom: "10px", color: "#60a5fa" }}>{exam.id.toUpperCase()}</h2>
+              <p style={{ color: "#94a3b8" }}>{exam.title}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <ExamEngine key={examId} examConfig={EXAMS[examId]} onSwitch={() => selectExam(null)} />
+  );
+}
