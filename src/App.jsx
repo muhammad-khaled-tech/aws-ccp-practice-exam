@@ -283,6 +283,7 @@ export default function App(){
   const [bSrv,setBSrv]=useState("all");
   const [expQ,setExpQ]=useState(null);
   const [browseLimit,setBrowseLimit]=useState(30);
+  const [showAudit,setShowAudit]=useState(false);
   const timerRef=useRef(null);
   const submitRef=useRef(null);
   const qs=RAW;
@@ -644,7 +645,6 @@ export default function App(){
     const{total,correct,pct,passed,dC,dT,items}=reportStats;
     const circ=2*Math.PI*42;
     const missed=items.filter(i=>!i.ok);
-    const [showAudit,setShowAudit]=useState(false);
     return(
       <div style={{...S.app,padding:0}}>
         <div style={{maxWidth:1000,margin:"0 auto",padding:"24px 20px"}}>
@@ -702,8 +702,27 @@ export default function App(){
                   ["↺ Retry Same","var(--aws-s2)",()=>{setAns({});setSub({});setSFlags({});setQi(0);setTLeft(session.isTimed?session.time:0);setScreen("exam")}],
                   ["✗ Retry Mistakes","rgba(239,68,68,.15)",()=>{if(!missed.length){alert("No mistakes!");return}startSession({type:"err",label:`Retry (${missed.length}Q)`,questions:missed.map(i=>i.q),isTimed:false,time:0,studyMode:true})}],
                   ["↓ Export","var(--s2)",()=>{
-                    const blob=new Blob([JSON.stringify({label:session.label,score:`${pct}%`,passed,correct,total,items:items.map(i=>({id:i.q.id,q:i.q.q,yourAnswer:i.sel,correct:i.q.c,ok:i.ok}))},null,2)],{type:"application/json"});
-                    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="aws_ccp_results.json";a.click();
+                    const wrongItems = items.filter(i => !i.ok);
+                    const flaggedItems = items.filter(i => sFlags[i.q.id] || flags[i.q.id]);
+                    const formatQ = i => ({
+                      id: i.q.id,
+                      question: i.q.q,
+                      options: i.q.o,
+                      yourAnswer: i.sel,
+                      correctAnswer: i.q.c,
+                      isCorrect: i.ok,
+                      explanationUrl: i.q.du || null
+                    });
+                    const blob=new Blob([JSON.stringify({
+                      label:session.label,
+                      score:`${pct}%`,
+                      passed,
+                      correct,
+                      total,
+                      wrongQuestions: wrongItems.map(formatQ),
+                      flaggedQuestions: flaggedItems.map(formatQ)
+                    },null,2)],{type:"application/json"});
+                    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="aws_ccp_analysis.json";a.click();
                   }],
                   ["🏠 Dashboard","var(--s2)",()=>{setSession(null);setScreen("dash")}]
                 ].map(([label,bg,fn],i)=>(
